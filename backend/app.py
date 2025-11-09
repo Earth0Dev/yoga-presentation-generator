@@ -13,8 +13,18 @@ from pptx.enum.shapes import MSO_SHAPE
 from pptx.oxml.xmlchemy import OxmlElement
 import io
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder=".",      # serve files from the same folder
+    template_folder="."     # allow index.html to be served
+)
+
 CORS(app)
+
+@app.route("/")
+def index():
+    return app.send_static_file("index.html")
+
 
 # API Keys
 UNSPLASH_API_KEY = os.getenv('UNSPLASH_API_KEY', 'Jn_wTUnTSAbNNE17HgXZvSKwztdneVsTAIny9MrexHk')
