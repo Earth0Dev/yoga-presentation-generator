@@ -28,7 +28,7 @@ def index():
 
 # API Keys
 UNSPLASH_API_KEY = os.getenv('UNSPLASH_API_KEY', 'Jn_wTUnTSAbNNE17HgXZvSKwztdneVsTAIny9MrexHk')
-OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', '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')
+OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', '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')
 
 # Clean yoga names
 YOGA_ASANAS = [
