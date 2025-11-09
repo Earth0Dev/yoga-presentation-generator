@@ -27,7 +27,7 @@ def index():
 
 
 # API Keys
-UNSPLASH_API_KEY = os.getenv('UNSPLASH_API_KEY', 'Jn_wTUnTSAbNNE17HgXZvSKwztdneVsTAIny9MrexHk')
+UNSPLASH_API_KEY = os.getenv('UNSPLASH_API_KEY', 'UNSPLASH_API_KEY')
 OPENROUTER_API_KEY = os.getenv('OPENROUTER_API_KEY', 'OPENROUTER_API_KEY')
 
 # Clean yoga names
