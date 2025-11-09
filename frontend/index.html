@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Yoga PPT Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 25px 70px rgba(0,0,0,0.4);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            background-size: 50px 50px;
+            animation: float 20s linear infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50px, -50px); }
+        }
+
+        .header h1 {
+            font-size: 3.2em;
+            margin-bottom: 15px;
+            font-weight: 800;
+            position: relative;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.4em;
+            opacity: 0.95;
+            position: relative;
+            font-weight: 300;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+            padding: 45px;
+            min-height: 650px;
+        }
+
+        .form-section {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            padding: 35px;
+            border-radius: 25px;
+            border: 3px solid #4CAF50;
+            box-shadow: 0 15px 40px rgba(76, 175, 80, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-section::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .form-section h2 {
+            color: #2E7D32;
+            margin-bottom: 30px;
+            font-size: 2em;
+            text-align: center;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .form-section h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 5px;
+            background: linear-gradient(90deg, #4CAF50, #2196F3);
+            margin: 15px auto;
+            border-radius: 3px;
+        }
+
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 12px;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.2em;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .yoga-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .yoga-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            padding: 18px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            font-weight: 600;
+            font-size: 1em;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .yoga-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(76, 175, 80, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .yoga-card:hover::before {
+            left: 100%;
+        }
+
+        .yoga-card:hover {
+            border-color: #4CAF50;
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 12px 30px rgba(76, 175, 80, 0.25);
+        }
+
+        .yoga-card.selected {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border-color: #4CAF50;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.35);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 25px 0;
+            padding: 18px;
+            background: white;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .checkbox-group input {
+            width: auto;
+            transform: scale(1.3);
+        }
+
+        .checkbox-group label {
+            margin: 0;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .generate-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 20px;
+            font-size: 1.3em;
+            font-weight: 700;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+        }
+
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .generate-btn:hover::before {
+            left: 100%;
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 35px rgba(76, 175, 80, 0.5);
+        }
+
+        .generate-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .generate-btn.loading {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+        }
+
+        .preview-section {
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            padding: 35px;
+            border-radius: 25px;
+            border: 3px solid #2196F3;
+            box-shadow: 0 15px 40px rgba(33, 150, 243, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview-section::before {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: -10px;
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .preview-section h2 {
+            color: #2196F3;
+            margin-bottom: 30px;
+            font-size: 2em;
+            text-align: center;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .preview-section h2::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 5px;
+            background: linear-gradient(90deg, #2196F3, #4CAF50);
+            margin: 15px auto;
+            border-radius: 3px;
+        }
+
+        .preview-content {
+            background: white;
+            border-radius: 20px;
+            padding: 0;
+            min-height: 450px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.15);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* New Modern Slide Design */
+        .modern-slide {
+            width: 100%;
+            height: 450px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(76, 175, 80, 0.2) 0%, transparent 50%);
+            animation: backgroundShift 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes backgroundShift {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            padding: 40px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+        }
+
+        .slide-title {
+            font-size: 2.8em;
+            font-weight: 800;
+            margin-bottom: 25px;
+            text-align: center;
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.4);
+            background: linear-gradient(135deg, #fff, #f8f9fa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .slide-subtitle {
+            font-size: 1.3em;
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 35px;
+            font-weight: 300;
+        }
+
+        .slide-image-container {
+            width: 220px;
+            height: 160px;
+            margin: 0 auto 25px;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            border: 4px solid rgba(255,255,255,0.25);
+            position: relative;
+        }
+
+        .slide-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .slide-image:hover {
+            transform: scale(1.05);
+        }
+
+        .slide-text-container {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            border-radius: 18px;
+            border: 1px solid rgba(255,255,255,0.25);
+            max-height: 180px;
+            overflow-y: auto;
+            margin: 0 auto;
+            width: 90%;
+        }
+
+        .slide-text {
+            margin: 0;
+            line-height: 1.7;
+            font-size: 1em;
+            text-align: center;
+            font-weight: 400;
+        }
+
+        .slide-text::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .slide-text::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+        }
+
+        .slide-text::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.3);
+            border-radius: 3px;
+        }
+
+        .status-section {
+            grid-column: 1 / -1;
+            background: linear-gradient(145deg, #ffffff, #f8f9fa);
+            padding: 30px;
+            border-radius: 25px;
+            border: 3px solid #FF9800;
+            box-shadow: 0 15px 40px rgba(255, 152, 0, 0.15);
+            margin-top: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .status-section::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #FF9800, #F57C00);
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .status-section h3 {
+            color: #FF9800;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 14px;
+            background: #e0e0e0;
+            border-radius: 8px;
+            margin: 25px 0;
+            overflow: hidden;
+            box-shadow: inset 0 3px 6px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #2196F3, #FF9800);
+            width: 0%;
+            transition: width 0.4s ease;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 1em;
+            font-weight: 600;
+        }
+
+        .download-section {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px;
+            background: linear-gradient(135deg, #4CAF50, #2196F3);
+            color: white;
+            border-radius: 25px;
+            margin-top: 25px;
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="1" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+            background-size: 40px 40px;
+            animation: float 15s linear infinite;
+        }
+
+        .download-section h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            position: relative;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .download-section p {
+            font-size: 1.3em;
+            opacity: 0.95;
+            margin-bottom: 30px;
+            position: relative;
+            font-weight: 300;
+        }
+
+        .download-btn {
+            background: white;
+            color: #2196F3;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.4em;
+            font-weight: 800;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(33, 150, 243, 0.15), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .download-btn:hover::before {
+            left: 100%;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: 0 18px 40px rgba(0,0,0,0.35);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4CAF50;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 25px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            color: #c62828;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin: 15px 0;
+            border-left: 5px solid #c62828;
+            box-shadow: 0 5px 15px rgba(198, 40, 40, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+                padding: 25px;
+            }
+            
+            .header h1 {
+                font-size: 2.5em;
+            }
+            
+            .slide-title {
+                font-size: 2.2em;
+            }
+            
+            .slide-image-container {
+                width: 180px;
+                height: 130px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 Enhanced Yoga PPT Generator</h1>
+            <p>Create comprehensive 13-slide presentations with perfect content</p>
+        </div>
+
+        <div class="content">
+            <!-- Form Section -->
+            <div class="form-section">
+                <h2>Create Your Yoga PPT</h2>
+                
+                <div class="form-group">
+                    <label for="studentName">Student Name (Optional)</label>
+                    <input type="text" id="studentName" placeholder="Enter student name for personalization">
+                </div>
+
+                <div class="form-group">
+                    <label>Select Yoga Asana</label>
+                    <div class="yoga-grid" id="yogaGrid">
+                        <!-- Yoga cards will be loaded here -->
+                    </div>
+                </div>
+
+                <div class="checkbox-group">
+                    <input type="checkbox" id="includeImages" checked>
+                    <label for="includeImages">Include Professional Yoga Images</label>
+                </div>
+
+                <button class="generate-btn" id="generateBtn" disabled>
+                    🎨 Generate Comprehensive PPT
+                </button>
+            </div>
+
+            <!-- Preview Section -->
+            <div class="preview-section">
+                <h2>Live Slide Preview</h2>
+                <div class="preview-content" id="previewContent">
+                    <div class="modern-slide">
+                        <div class="slide-background"></div>
+                        <div class="slide-content">
+                            <div class="slide-title">Welcome to Yoga PPT</div>
+                            <div class="slide-subtitle">Professional 13-Slide Presentations</div>
+                            <div class="slide-image-container">
+                                <div style="width:100%;height:100%;background:linear-gradient(135deg,#667eea,#764ba2);display:flex;align-items:center;justify-content:center;color:white;font-size:3.5em;">
+                                    🧘♂️
+                                </div>
+                            </div>
+                            <div class="slide-text-container">
+                                <p class="slide-text">Select a yoga pose to generate a complete presentation with comprehensive content and professional design</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress Section -->
+            <div class="status-section">
+                <h3>Generation Progress</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progressText">Ready to create comprehensive presentation</span>
+                    <span id="slideCount">Slide 0/13</span>
+                </div>
+            </div>
+
+            <!-- Download Section -->
+            <div class="download-section" id="downloadSection">
+                <h2>🎉 Your Comprehensive PPT is Ready!</h2>
+                <p>13 professional slides with perfect content and no overflow</p>
+                <button class="download-btn" id="downloadBtn">
+                    📥 Download PowerPoint
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://127.0.0.1:5000';
+        let selectedAsana = null;
+        let currentPresentation = null;
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            loadYogaAsanas();
+            setupEventListeners();
+        });
+
+        // Load yoga asanas from backend
+        async function loadYogaAsanas() {
+            const yogaGrid = document.getElementById('yogaGrid');
+            
+            try {
+                yogaGrid.innerHTML = '<div class="loading-spinner"></div><p>Loading yoga poses...</p>';
+                
+                const response = await fetch(`${API_BASE_URL}/asanas`);
+                const data = await response.json();
+                
+                yogaGrid.innerHTML = '';
+                data.asanas.forEach(asana => {
+                    const card = document.createElement('div');
+                    card.className = 'yoga-card';
+                    card.textContent = asana;
+                    card.addEventListener('click', () => selectAsana(asana, card));
+                    yogaGrid.appendChild(card);
+                });
+                
+            } catch (error) {
+                yogaGrid.innerHTML = '<div class="error">Failed to load yoga poses. Please check if backend is running.</div>';
+            }
+        }
+
+        // Select a yoga asana
+        function selectAsana(asana, card) {
+            selectedAsana = asana;
+            
+            document.querySelectorAll('.yoga-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            
+            document.getElementById('generateBtn').disabled = false;
+            
+            updatePreview('selected', asana);
+        }
+
+        // Update preview with new modern design
+        function updatePreview(type, data) {
+            const previewContent = document.getElementById('previewContent');
+            
+            if (type === 'selected') {
+                previewContent.innerHTML = `
+                    <div class="modern-slide">
+                        <div class="slide-background"></div>
+                        <div class="slide-content">
+                            <div class="slide-title">${data}</div>
+                            <div class="slide-subtitle">Comprehensive Yoga Presentation</div>
+                            <div class="slide-image-container">
+                                <div style="width:100%;height:100%;background:linear-gradient(135deg,#4CAF50,#45a049);display:flex;align-items:center;justify-content:center;color:white;font-size:3.5em;">
+                                    🎨
+                                </div>
+                            </div>
+                            <div class="slide-text-container">
+                                <p class="slide-text">• 13 Professional Slides<br>• Comprehensive AI Content<br>• No Text Overflow<br>• Premium Canva Design</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else if (type === 'slide' && data) {
+                const lines = data.content.split('\n').filter(line => line.trim());
+                const title = lines[0] || selectedAsana;
+                const content = lines.slice(1).join('<br>• ');
+                
+                previewContent.innerHTML = `
+                    <div class="modern-slide">
+                        <div class="slide-background"></div>
+                        <div class="slide-content">
+                            <div class="slide-title">${title.substring(0, 40)}${title.length > 40 ? '...' : ''}</div>
+                            ${data.image ? `
+                                <div class="slide-image-container">
+                                    <img src="${data.image.url}" alt="${data.image.alt}" class="slide-image" onerror="this.style.display='none'">
+                                </div>
+                            ` : `
+                                <div class="slide-image-container">
+                                    <div style="width:100%;height:100%;background:linear-gradient(135deg,#2196F3,#1976D2);display:flex;align-items:center;justify-content:center;color:white;font-size:3.5em;">
+                                        🧘♀️
+                                    </div>
+                                </div>
+                            `}
+                            <div class="slide-text-container">
+                                <p class="slide-text">${content.substring(0, 250)}${content.length > 250 ? '...' : ''}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Generate comprehensive presentation
+        async function generatePresentation() {
+            if (!selectedAsana) return;
+
+            const studentName = document.getElementById('studentName').value;
+            const includeImages = document.getElementById('includeImages').checked;
+            const generateBtn = document.getElementById('generateBtn');
+
+            generateBtn.disabled = true;
+            generateBtn.textContent = '🔄 Generating 13 Slides...';
+            generateBtn.classList.add('loading');
+            
+            updateProgress(0, 'Starting comprehensive generation...');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/generate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        asanas: [selectedAsana],
+                        student_name: studentName,
+                        include_images: includeImages
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+                }
+
+                const data = await response.json();
+                
+                if (data.status === 'error') {
+                    throw new Error(data.message);
+                }
+
+                currentPresentation = data;
+                simulateProgress();
+                document.getElementById('downloadSection').style.display = 'block';
+                
+                if (data.slides && data.slides.length > 0) {
+                    updatePreview('slide', data.slides[0]);
+                }
+
+                showNotification('✅ 13-Slide PPT generated successfully!', 'success');
+
+            } catch (error) {
+                console.error('Generation error:', error);
+                showNotification('❌ Generation failed: ' + error.message, 'error');
+                document.getElementById('previewContent').innerHTML = `
+                    <div class="error">
+                        <h3>Generation Failed</h3>
+                        <p>${error.message}</p>
+                        <button onclick="generatePresentation()" style="margin-top: 15px; padding: 12px 24px; background: #4CAF50; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600;">
+                            Try Again
+                        </button>
+                    </div>
+                `;
+            } finally {
+                generateBtn.disabled = false;
+                generateBtn.textContent = '🎨 Generate Comprehensive PPT';
+                generateBtn.classList.remove('loading');
+            }
+        }
+
+        // Simulate progress animation
+        function simulateProgress() {
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += Math.random() * 12;
+                if (progress >= 100) {
+                    progress = 100;
+                    clearInterval(interval);
+                    updateProgress(progress, '✅ All 13 slides completed!');
+                } else {
+                    updateProgress(progress, `🔄 Creating slide ${Math.floor(progress / 7.7)}/13...`);
+                }
+            }, 200);
+        }
+
+        // Update progress bar
+        function updateProgress(percent, text) {
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = text;
+            document.getElementById('slideCount').textContent = `Slide ${Math.floor(percent / 7.7)}/13`;
+        }
+
+        // Download presentation
+        async function downloadPresentation() {
+            if (!currentPresentation) {
+                showNotification('❌ No presentation to download', 'error');
+                return;
+            }
+
+            try {
+                const downloadBtn = document.getElementById('downloadBtn');
+                downloadBtn.disabled = true;
+                downloadBtn.textContent = '⏳ Downloading...';
+
+                const response = await fetch(`${API_BASE_URL}/download-pptx`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        presentation: currentPresentation
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Download failed: ' + response.statusText);
+                }
+
+                const blob = await response.blob();
+                
+                let filename = `comprehensive_yoga_${selectedAsana.replace(/ /g, '_').toLowerCase()}`;
+                const studentName = document.getElementById('studentName').value;
+                if (studentName && studentName.trim()) {
+                    filename += `_${studentName.replace(/ /g, '_').toLowerCase()}`;
+                }
+                filename += '.pptx';
+
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+
+                showNotification('✅ Download started!', 'success');
+
+            } catch (error) {
+                console.error('Download error:', error);
+                showNotification('❌ Download failed: ' + error.message, 'error');
+            } finally {
+                const downloadBtn = document.getElementById('downloadBtn');
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = '📥 Download PowerPoint';
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            document.getElementById('generateBtn').addEventListener('click', generatePresentation);
+            document.getElementById('downloadBtn').addEventListener('click', downloadPresentation);
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 25px;
+                right: 25px;
+                background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+                color: white;
+                padding: 18px 28px;
+                border-radius: 12px;
+                z-index: 1000;
+                box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+                font-weight: 600;
+                font-size: 1.1em;
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                document.body.removeChild(notification);
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
